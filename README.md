@@ -30,12 +30,13 @@ O checklist foi criado como um ponto de partida.
 Sinta‑se livre para editar, adicionar ou remover tarefas conforme a necessidade do seu dia a dia.  
 Para projetos diferentes ou novas etapas, basta seguir a mesma estrutura:
 
-    ## Nome do Projeto
-    - [ ] **Tarefa 1**
-      - 💡 Dica ou instrução adicional
-    - [ ] **Tarefa 2**
-      - 💡 Dica ou instrução adicional
+## Como adicionar atividades do dia
 
+1. Abra ou crie o arquivo do dia em `AAAA/MM/DD.md` dentro do repositório (por exemplo, `2025/10/22.md`) e liste as tarefas com caixas de seleção `[ ]`.
+2. Agrupe as tarefas por projeto usando subtítulos como `## Projeto BeSail`, `## Projeto StridAPP` ou `## Projeto Gêmeos Digitais`.
+3. Para cada tarefa, registre detalhes e dicas em linhas seguintes, fora de tabelas.
+4. Marque as tarefas concluídas substituindo `[ ]` por `[x]` e inclua links para commits ou PRs relacionados.
+5. Para acompanhar pelo projeto "Daily Ops", filtre as issues com os rótulos `tipo:diario` e `proj:...` conforme o projeto desejado.
 ### Registro de Progresso
 
 Você pode manter um histórico do seu progresso salvando versões diárias do checklist ou criando branches específicos para cada dia de trabalho.  
