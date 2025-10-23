@@ -1,0 +1,52 @@
+name: Checklist Diário
+description: Criar checklist diário com seções por projeto
+title: "Checklist Diário, {{date}}"
+labels: ["tipo:diario"]
+body:
+  - type: textarea
+    id: resumo
+    attributes:
+      label: Objetivo do dia
+      placeholder: Exemplo: sincronizar BeSail e StridAPP antes das 10h.
+  - type: textarea
+    id: besail
+    attributes:
+      label: Projeto BeSail
+      value: |
+        - [ ] Testar URL do backend
+        - [ ] Publicar no GitLab
+        - [ ] Publicar no GitHub
+        - [ ] Validar subdomínio na infra
+        - [ ] Testar deploy automático
+        - [ ] Verificar variáveis de ambiente (.env)
+    validations:
+      required: false
+  - type: textarea
+    id: stridapp
+    attributes:
+      label: Projeto StridAPP
+      value: |
+        - [ ] Validar interface anterior
+        - [ ] Checar API e definir rotas
+        - [ ] Documentar como no padrão KeyCore
+    validations:
+      required: false
+  - type: textarea
+    id: gemeos
+    attributes:
+      label: Projeto Gêmeos Digitais
+      value: |
+        - [ ] Perguntar por nome
+        - [ ] Criar lista de atividades
+        - [ ] Validar com dono
+    validations:
+      required: false
+  - type: dropdown
+    id: labels_projetos
+    attributes:
+      label: Marque os projetos envolvidos
+      multiple: true
+      options:
+        - proj:BeSail
+        - proj:StridAPP
+        - proj:GêmeosDigitais
