@@ -1,0 +1,68 @@
+name: daily-note
+on:
+  schedule:
+    - cron: "0 11 * * *"
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set date env
+        run: |
+          TZ="America/Recife"
+          echo "TODAY=$(date +'%Y/%m/%d')" >> $GITHUB_ENV
+          echo "YEAR=$(date +'%Y')" >> $GITHUB_ENV
+          echo "MONTH=$(date +'%m')" >> $GITHUB_ENV
+
+      - name: Create folder
+        run: |
+          mkdir -p "${{ env.YEAR }}/${{ env.MONTH }}"
+
+      - name: Generate daily markdown if not exists
+        run: |
+          FILE="${{ env.TODAY }}.md"
+          if [ ! -f "$FILE" ]; then
+            cat > "$FILE" << 'EOF'
+# 🗓️ Checklist Diário, {{DATA}}
+
+## 🚤 Projeto BeSail
+- [ ] Testar URL do backend
+- [ ] Publicar no GitLab
+- [ ] Publicar no GitHub
+- [ ] Validar subdomínio na infra
+- [ ] Testar deploy automático
+- [ ] Verificar variáveis de ambiente (.env)
+
+## 🏃 Projeto StridAPP
+- [ ] Validar interface anterior
+- [ ] Checar API e definir rotas
+- [ ] Documentar como no padrão KeyCore
+
+## 🧐 Projeto Gêmeos Digitais
+- [ ] Perguntar por nome
+- [ ] Criar lista de atividades
+- [ ] Validar com dono
+
+---
+
+### 🕘 Sugestão de rotina
+| Horário | Atividade |
+|--------|-----------|
+| 08:00 - 08:30 | BeSail, testes e deploy |
+| 08:30 - 09:15 | StridAPP, revisão e documentação |
+| 09:15 - 09:45 | Gêmeos Digitais, planejamento |
+| 09:45 - 10:00 | Revisar pendências |
+
+EOF
+            RECIFE_DATE=$(TZ=America/Recife date +'%d/%m/%Y')
+            sed -i "s/{{DATA}}/${RECIFE_DATE}/g" "$FILE"
+          fi
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: nota diária, ${{ env.TODAY }}"
+          file_pattern: "${{ env.YEAR }}/${{ env.MONTH }}/*.md"
