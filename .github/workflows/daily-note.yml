@@ -1,7 +1,7 @@
 name: daily-note
 on:
   schedule:
-    - cron: "0 11 * * *"
+    - cron: "0 11 * * *"  # 08:00 America/Recife
   workflow_dispatch:
 
 jobs:
@@ -23,46 +23,44 @@ jobs:
 
       - name: Generate daily markdown if not exists
         run: |
-          FILE="${{ env.TODAY }}.md"
+          FILE="${{ env.YEAR }}/${{ env.MONTH }}/${{ env.TODAY }}.md"
           if [ ! -f "$FILE" ]; then
-            cat > "$FILE" << 'EOF'
-# 🗓️ Checklist Diário, {{DATA}}
-
-## 🚤 Projeto BeSail
-- [ ] Testar URL do backend
-- [ ] Publicar no GitLab
-- [ ] Publicar no GitHub
-- [ ] Validar subdomínio na infra
-- [ ] Testar deploy automático
-- [ ] Verificar variáveis de ambiente (.env)
-
-## 🏃 Projeto StridAPP
-- [ ] Validar interface anterior
-- [ ] Checar API e definir rotas
-- [ ] Documentar como no padrão KeyCore
-
-## 🧐 Projeto Gêmeos Digitais
-- [ ] Perguntar por nome
-- [ ] Criar lista de atividades
-- [ ] Validar com dono
-
----
-
-### 🕘 Sugestão de rotina
-| Horário | Atividade |
-|--------|-----------|
-| 08:00 - 08:30 | BeSail, testes e deploy |
-| 08:30 - 09:15 | StridAPP, revisão e documentação |
-| 09:15 - 09:45 | Gêmeos Digitais, planejamento |
-| 09:45 - 10:00 | Revisar pendências |
-
-EOF
             RECIFE_DATE=$(TZ=America/Recife date +'%d/%m/%Y')
-            sed -i "s/{{DATA}}/${RECIFE_DATE}/g" "$FILE"
+            {
+              echo "# 🗓️ Checklist Diario, $RECIFE_DATE"
+              echo ""
+              echo "## 🚤 Projeto BeSail"
+              echo "- [ ] Testar URL do backend"
+              echo "- [ ] Publicar no GitLab"
+              echo "- [ ] Publicar no GitHub"
+              echo "- [ ] Validar subdominio na infra"
+              echo "- [ ] Testar deploy automatico"
+              echo "- [ ] Verificar variaveis de ambiente (.env)"
+              echo ""
+              echo "## 🏃 Projeto StridAPP"
+              echo "- [ ] Validar interface anterior"
+              echo "- [ ] Checar API e definir rotas"
+              echo "- [ ] Documentar como no padrao KeyCore"
+              echo ""
+              echo "## 🧠 Projeto Gemeos Digitais"
+              echo "- [ ] Perguntar por nome"
+              echo "- [ ] Criar lista de atividades"
+              echo "- [ ] Validar com dono"
+              echo ""
+              echo "---"
+              echo ""
+              echo "### 🕘 Sugestao de rotina"
+              echo "| Horario | Atividade |"
+              echo "|--------|-----------|"
+              echo "| 08:00 , 08:30 | BeSail, testes e deploy |"
+              echo "| 08:30 , 09:15 | StridAPP, revisao e documentacao |"
+              echo "| 09:15 , 09:45 | Gemeos Digitais, planejamento |"
+              echo "| 09:45 , 10:00 | Revisar pendencias |"
+            } > "$FILE"
           fi
 
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore: nota diária, ${{ env.TODAY }}"
+          commit_message: "chore: nota diaria, ${{ env.TODAY }}"
           file_pattern: "${{ env.YEAR }}/${{ env.MONTH }}/*.md"
