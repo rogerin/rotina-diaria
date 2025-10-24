@@ -26,37 +26,7 @@ jobs:
           FILE="${{ env.YEAR }}/${{ env.MONTH }}/${{ env.TODAY }}.md"
           if [ ! -f "$FILE" ]; then
             RECIFE_DATE=$(TZ=America/Recife date +'%d/%m/%Y')
-            {
-              echo "# 🗓️ Checklist Diario, $RECIFE_DATE"
-              echo ""
-              echo "## 🚤 Projeto BeSail"
-              echo "- [ ] Testar URL do backend"
-              echo "- [ ] Publicar no GitLab"
-              echo "- [ ] Publicar no GitHub"
-              echo "- [ ] Validar subdominio na infra"
-              echo "- [ ] Testar deploy automatico"
-              echo "- [ ] Verificar variaveis de ambiente (.env)"
-              echo ""
-              echo "## 🏃 Projeto StridAPP"
-              echo "- [ ] Validar interface anterior"
-              echo "- [ ] Checar API e definir rotas"
-              echo "- [ ] Documentar como no padrao KeyCore"
-              echo ""
-              echo "## 🧠 Projeto Gemeos Digitais"
-              echo "- [ ] Perguntar por nome"
-              echo "- [ ] Criar lista de atividades"
-              echo "- [ ] Validar com dono"
-              echo ""
-              echo "---"
-              echo ""
-              echo "### 🕘 Sugestao de rotina"
-              echo "| Horario | Atividade |"
-              echo "|--------|-----------|"
-              echo "| 08:00 , 08:30 | BeSail, testes e deploy |"
-              echo "| 08:30 , 09:15 | StridAPP, revisao e documentacao |"
-              echo "| 09:15 , 09:45 | Gemeos Digitais, planejamento |"
-              echo "| 09:45 , 10:00 | Revisar pendencias |"
-            } > "$FILE"
+            echo "# Checklist Diario, $RECIFE_DATE" > "$FILE"
           fi
 
       - name: Commit changes
