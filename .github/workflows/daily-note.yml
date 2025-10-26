@@ -13,9 +13,9 @@ jobs:
       - name: Set date env
         run: |
           TZ="America/Recife"
-          echo "TODAY=$(date +'%Y/%m/%d')" >> $GITHUB_ENV
           echo "YEAR=$(date +'%Y')" >> $GITHUB_ENV
           echo "MONTH=$(date +'%m')" >> $GITHUB_ENV
+          echo "DAY=$(date +'%d')" >> $GITHUB_ENV
 
       - name: Create folder
         run: |
@@ -23,7 +23,7 @@ jobs:
 
       - name: Generate daily markdown if not exists
         run: |
-          FILE="${{ env.YEAR }}/${{ env.MONTH }}/${{ env.TODAY }}.md"
+          FILE="${{ env.YEAR }}/${{ env.MONTH }}/${{ env.DAY }}.md"
           if [ ! -f "$FILE" ]; then
             RECIFE_DATE=$(TZ=America/Recife date +'%d/%m/%Y')
             echo "# Checklist Diario, $RECIFE_DATE" > "$FILE"
@@ -32,4 +32,4 @@ jobs:
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "chore generate daily note"
+          commit_message: "chore: generate daily note"
